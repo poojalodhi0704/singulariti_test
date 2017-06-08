@@ -1,0 +1,20 @@
+<div class="player-list " >
+    
+    <div class="row">
+      
+         <div >
+          
+                 <button class="btn rounded-btn" (click) ="loadList()"> Click here </button>&nbsp;
+
+                 <div class="col-lg-4 col-lg-offset-4">
+      
+         		 <div *ngFor = "let list of lists">
+         			<p> {{list.country}} : {{list.playerList}}</p>
+         		</div>
+            </div>
+         	
+         </div>
+</div> 
+</div>
+
+

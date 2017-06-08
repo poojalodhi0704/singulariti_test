@@ -1,0 +1,12 @@
+-- ------------------------------------------------------------------------------
+-- Test
+-- ------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `singulariti_test`;
+CREATE TABLE `singulariti_test`(
+    `id` VARCHAR(36) NOT NULL,
+    `country` VARCHAR(150) DEFAULT NULL,
+    `player` VARCHAR(150)  DEFAULT NULL,
+
+    PRIMARY KEY(`id`)
+) ENGINE=InnoDB;
+

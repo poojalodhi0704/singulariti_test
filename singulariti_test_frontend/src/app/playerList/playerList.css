@@ -1,0 +1,65 @@
+.player-list {
+	background: #011A27;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: auto;
+	text-align: left;
+	color: #fff;
+	padding: 3em;}
+	.col-lg-4 {
+		padding :0;
+	}
+	
+
+	h3 {
+		color: #C0B2B5;
+		
+		}
+	.input-sm {
+	    height: 36px;
+	    padding: 10px 16px;
+	    font-size: 12px;
+	    line-height: 1.3333333;
+	    border-radius: 0px;
+	}
+	a {
+		cursor: pointer;
+	}
+	.input-underline {
+	    background: 0 0;
+	    border: none;
+	    box-shadow: none;
+	    border-bottom: 2px solid rgba(255,255,255,.5);
+	    color: #FFF;
+	    border-radius: 0;
+	}
+	.input-underline:focus {
+	    border-bottom: 2px solid #fff;
+	    box-shadow: none;
+	}
+	.rounded-btn{
+		border-radius: 50px;
+		    	border-radius: 50px;
+		color: white;
+		background:;
+		border: 2px solid rgba(255,255,255,0.8);
+		font-size: 18px;
+	    line-height: 40px;
+	    padding: 0 25px;
+	}
+	.rounded-btn:hover,.rounded-btn:focus,.rounded-btn:active,.rounded-btn:visited{
+		color: white;
+		border: 2px solid white;
+		outline: none;
+	}
+	.form-group {
+		padding: 8px 0;
+		
+	}
+	.form-content {
+		padding: 40px 0;
+	}
+}

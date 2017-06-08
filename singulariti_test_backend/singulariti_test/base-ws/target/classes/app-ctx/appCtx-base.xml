@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+    		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd"
+       default-autowire="byName">
+    <aop:aspectj-autoproxy/>
+    <context:annotation-config/>
+
+   <context:component-scan base-package="com.singulariti.service"/>
+    <context:component-scan base-package="com.singulariti.mapper"/>
+    <context:component-scan base-package="com.singulariti.dao"/>
+    <mvc:annotation-driven />
+    <mvc:default-servlet-handler />
+<!--
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+-->
+    <!--SessionFactory-->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+          destroy-method="destroy">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+        <property name="hibernateProperties">
+            <ref bean="dialectProperties" />
+        </property>
+        <property name="packagesToScan">
+            <list>
+               <value>com.singulariti.domain</value>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="placeholderConfigMM"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        <property name="locations">
+            <list>
+                <value>file:${user.home}/property_files/singulariti.properties</value>
+            </list>
+        </property>
+    </bean>
+    <!--TransactionalManager-->
+    <tx:annotation-driven transaction-manager="transactionManager"
+                          mode="proxy" />
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <!--dataSource-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass" value="${database.driver}" />
+        <property name="jdbcUrl" value="${database.url}" />
+        <property name="user" value="${database.user}" />
+        <property name="password" value="${database.password}" />
+
+        <property name="initialPoolSize">
+            <value>${initial.pool.size}</value>
+        </property>
+        <property name="minPoolSize">
+            <value>${min.pool.size}</value>
+        </property>
+        <property name="maxPoolSize">
+            <value>${max.pool.size}</value>
+        </property>
+        <!-- <property name="timeout"><value>0</value></property> -->   <!-- 0 means: no timeout -->
+        <property name="acquireIncrement">
+            <value>${acquire.increment}</value>
+        </property>
+        <property name="maxStatements">
+            <value>${max.statements}</value>
+        </property>  <!-- 0 means: statement caching is turned off. -->
+        <property name="numHelperThreads">
+            <value>${num.helper.threads}</value>
+        </property>  <!-- 3 is default -->
+        <!-- The number of milliseconds a client calling getConnection() will wait
+            for a Connection to be checked-in or acquired when the pool is exhausted.
+            Zero means wait indefinitely. Setting any positive value will cause the getConnection()
+            call to time-out and break with an SQLException after the specified number
+            of milliseconds. -->
+        <property name="checkoutTimeout">
+            <value>${checkout.timeout}</value>
+        </property>
+        <property name="maxIdleTime">
+            <value>${max.idle.time}</value>
+        </property>
+        <property name="statementCacheNumDeferredCloseThreads">
+            <value>${statementCacheNumDeferredCloseThreads}</value>
+        </property>
+        <property name="maxIdleTimeExcessConnections">
+            <value>${max.idle.time.excess.connections}</value>
+        </property>
+        <property name="testConnectionOnCheckin">
+            <value>${test.connection.on.checkin}</value>
+        </property>
+        <property name="idleConnectionTestPeriod">
+            <value>${idle.connection.test.period}</value>
+        </property>
+
+    </bean>
+
+
+    <!--dialectProperties-->
+    <bean id="dialectProperties"
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.use_sql_comments">${hibernate.use_sql_comments}</prop>
+                <prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+                <!-- >prop key="hibernate.hbm2ddl.auto">update</prop -->
+                <prop key="hibernate.jdbc.batch_size">${jdbc.batch_size}</prop>
+                <prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+                <prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+                <!-- <prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</prop> -->
+                <prop key="hibernate.temp.use_jdbc_metadata_defaults">"${hibernate.temp.use_jdbc_metadata_defaults}"</prop>
+                <!-- <prop key="hibernate.search.default.indexBase">${hibernate.search.default.indexBase}</prop>
+                 <prop key="hibernate.search.default.directory_provider">${hibernate.search.default.directory_provider}</prop>-->
+            </props>
+
+        </property>
+
+    </bean>
+
+
+</beans>
